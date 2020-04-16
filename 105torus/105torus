@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2018
+## 105torus
+## File description:
+## 105torus
+##
+
+import sys
+import math
+from math import *
+
+if len(sys.argv) == 2:
+    if sys.argv[1] == "-h":
+        print("USAGE")
+        print("\t./105torus opt a0 a1 a2 a3 a4 n")
+        print("")
+        print("DESCRIPTION")
+        print("\topt\tmethod option:")
+        print("\t\t\t1 for the bisection method")
+        print("\t\t\t2 for the Newton's method")
+        print("\t\t\t3 for the secant method")
+        print("\ta[0-4]\tcoefficient of the equation")
+        print("\tn\tprecision (the application of the polynomial to the solution should be smaller than 10^-n")
+        exit (0)
+    else:
+        exit (84)
+if len(sys.argv) != 8:
+    exit (84)
+i = 1
+k = 0
+while i != 8:
+    while len(sys.argv[i]) != k:
+        if sys.argv[i][k] != "1":
+            if sys.argv[i][k] != "2":
+                if sys.argv[i][k] != "3":
+                    if sys.argv[i][k] != "4":
+                        if sys.argv[i][k] != "5":
+                            if sys.argv[i][k] != "6":
+                                if sys.argv[i][k] != "7":
+                                    if sys.argv[i][k] != "8":
+                                        if sys.argv[i][k] != "9":
+                                            if sys.argv[i][k] != "0":
+                                                if sys.argv[i][k] != "-":
+                                                    exit (84)
+        k = k + 1
+    i = i + 1
+    k = 0
+
+opt = int(sys.argv[1])
+a0 = int(sys.argv[2])
+a1 = int(sys.argv[3])
+a2 = int(sys.argv[4])
+a3 = int(sys.argv[5])
+a4 = int(sys.argv[6])
+n = int(sys.argv[7])
+
+def fct(x):
+    funct = (a4 * pow(x, 4) + a3 * pow(x, 3) + a2 * pow(x, 2) + a1 * x + a0)
+    return (funct)
+
+def fctderv(x):
+    funct = (4 * a4 * pow(x, 3) + 3 * a3 * pow(x, 2) + 2 * a2 * x + a1)
+    return (funct)
+
+def method_secant(x):
+    i = 0
+    j = 1
+    while (abs(i - j) > pow(10, -x)):
+        a = j - ((j - i) / (fct(j) - fct(i))) * fct(j)
+        i = j
+        j = a
+        if pow(10, n) * a % 1 == 0:
+            print("x =", a)
+        else:
+            print("x = %.*f" % (n, a))
+
+def method_bissect(x):
+    i = 0
+    j = 1
+    fcta = fct(i);
+    fctb = fct(j);
+    k = 0
+    l = 0
+    m = 1
+    while (abs(k - m) > pow(10, -n)):
+        m = k
+        k = (i + j) / 2
+        if fct(i) * fct(k) < 0:
+            j = k
+        else:
+            i = k
+        if pow(10, n) * k % 1 == 0:
+            print("x =", k)
+        else:
+            print("x = %.*f" % (n, k))
+
+def method_newton(x):
+    i = 0.5
+    j = 0
+    k = 0
+    while (abs(j - i) > pow(10, -x)):
+        j = i
+        k += 1
+        if pow(10, n) * i % 1 == 0:
+            print("x =", i)
+        else:
+            print("x = %.*f" % (n, i))
+        i = i - (fct(i) / fctderv(i))
+
+if opt == 1:
+    method_bissect(n)
+if opt == 2:
+    method_newton(n)
+if opt == 3:
+    method_secant(n)

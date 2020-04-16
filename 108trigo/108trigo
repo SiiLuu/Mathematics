@@ -1,0 +1,147 @@
+#!/usr/bin/env python3
+
+##EPITECH PROJECT
+##108trigo_2018
+
+import sys
+from math import *
+
+def id_matrix(i):
+    array = []
+    for a in range(i):
+        tab = []
+        for b in range(i):
+            tab.append(1 if b == a else 0)
+        array.append(tab)
+    return (array)
+
+def mul_matrix(x, y):
+    array = []
+    for a in range(len(x)):
+        tab = []
+        for b in range(len(y[0])):
+            d = 0
+            for c in range(len(x[0])):
+                d = d + x[a][c] * y[c][b]
+            tab.append(d)
+        array.append(tab)
+    return (array)
+
+def pow_matrix(x, i):
+    array = x
+    for a in range(i - 1):
+        array = mul_matrix(array, x)
+    return (array)
+
+def div_matrix(x, i):
+    for a in range(len(x)):
+        for b in range(len(x[0])):
+            x[a][b] = x[a][b] / i
+    return (x)
+
+def add_matrix(x, y):
+    array = []
+    for a in range(len(x)):
+        tab = []
+        for b in range(len(x[0])):
+            tab.append(x[a][b] + y[a][b])
+        array.append(tab)
+    return (array)
+
+def sub_matrix(x, y):
+    array = []
+    for a in range(len(x)):
+        tab = []
+        for b in range(len(x[0])):
+            tab.append(x[a][b] - y[a][b])
+        array.append(tab)
+    return (array)
+
+def exp_func(array):
+    tmp = id_matrix(len(array))
+    for a in range(1, 18):
+        tmp = add_matrix(tmp, div_matrix(pow_matrix(array, a), factorial(a)))
+    return (tmp)
+
+def cos_func(array):
+    tmp = id_matrix(len(array))
+    for a in range(1, 17):
+        if a % 2 == 0:
+            tmp = add_matrix(tmp, div_matrix(pow_matrix(array, 2 * a), factorial(2 * a)))
+        else:
+            tmp = sub_matrix(tmp, div_matrix(pow_matrix(array, 2 * a), factorial(2 * a)))
+    return (tmp)
+
+def sin_func(array):
+    tmp = array
+    for a in range(1, 17):
+        if a % 2 == 0:
+            tmp = add_matrix(tmp, div_matrix(pow_matrix(array, 2 * a + 1), factorial(2 * a + 1)))
+        else:
+            tmp = sub_matrix(tmp, div_matrix(pow_matrix(array, 2 * a + 1), factorial(2 * a + 1)))
+    return (tmp)
+
+def cosh_func(array):
+    tmp = id_matrix(len(array))
+    for a in range(1, 17):
+        tmp = add_matrix(tmp, div_matrix(pow_matrix(array, 2 * a), factorial(2 * a)))
+    return (tmp)
+
+def sinh_func(array):
+    tmp = array
+    for a in range(1, 17):
+        tmp = add_matrix(tmp, div_matrix(pow_matrix(array, 2 * a + 1), factorial(2 * a + 1)))
+    return (tmp)
+
+def my_h():
+    print("USAGE\n    ./108trigo fun a0 a1 a2....\n\n"
+          "DESCRIPTION\n    fun    function to be applied, "
+          "among at least \"EXP\", \"COS\", \"SIN\", \"COSH\""
+          "\n           and \"SINH\"\n"
+          "    ai     coeficients of the matrix")
+    sys.exit(0)
+
+def error_matrix():
+    a = len(sys.argv) - 2
+    b = trunc(sqrt(a))
+    if trunc(sqrt(a)) ** 2 != a:
+        sys.exit(84)
+    return (b)
+
+def check_args():
+    if "-h" in sys.argv:
+        my_h()
+    if len(sys.argv) <= 2 or sys.argv[1] not in ["EXP", "COS", "SIN", "COSH", "SINH"]:
+        sys.exit(84)
+    try:
+        for a in range(2, len(sys.argv)):
+            sys.argv[a] = float(sys.argv[a])
+    except ValueError:
+        sys.exit(84)
+
+def start_fac(array):
+    args = ["EXP", "COS", "SIN", "COSH", "SINH"]
+    tab_fc = [exp_func, cos_func, sin_func, cosh_func, sinh_func]
+    for a in range(len(tab_fc)):
+        if sys.argv[1] == args[a]:
+            array = tab_fc[a](array)
+    return (array)
+
+def print_matrix(array):
+    for a in range(len(array)):
+        for b in range (len(array[a])):
+            print("%.2f%c" % (array[a][b], "\t" if (b != len(array[a]) - 1) else "\n"), end="")
+
+def main():
+    check_args()
+    array = []
+    a = error_matrix()
+    for b in range(int(a)):
+        array.append([])
+        for c in range (int(a)):
+            array[b].append(sys.argv[b * int(a) + c + 2])
+    array = start_fac(array)
+    print_matrix(array)
+    sys.exit(0)
+
+main()

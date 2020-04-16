@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2019
+## 201yams
+## File description:
+## 201yams python
+##
+
+## 1 - (1/6^nbdedésalancer + 5/6)  pour pas les full
+
+import sys
+from math import *
+
+def coef_bino(n, k):
+    bino = factorial(n) / (factorial(k) * factorial(n - k))
+    return (bino)
+
+def calc_binomial(n, k):
+    binom = (factorial(n) / (factorial(k) * factorial(n - k))) * pow(1/6, k) * pow(5/6, n - k)
+    return (binom)
+
+def proba_plus(count, max_count):
+    proba = 0
+    rollnb = max_count - count
+
+    if (count >= max_count):
+        return (1)
+    else:
+        while (rollnb < 5 - count + 1):
+            proba += calc_binomial(5 - count, rollnb)
+            rollnb = rollnb + 1
+    return (proba)
+
+def proba_full(count1, count2):
+    proba = 1.0
+    pair = 0.0
+    three = 0.0
+
+    if (count1 > 3):
+        count1 = 3
+    if (count2 > 2):
+        count2 = 2
+    pair = coef_bino(2 - count2, 2 - count2)
+    three = coef_bino(5 - count1 - count2, 3 - count1)
+    proba = (pair * three) / pow(6, 5 - count1 - count2)
+    return (proba)
+
+def calc_proba(ctype, vDices, cnb):
+    count = 0
+    count2 = 0
+    proba = 0
+
+    if (ctype != "full"):
+        for i in vDices:
+            if (i == cnb):
+                count = count + 1
+    else:
+        for i in vDices:
+            if (i == cnb[0]):
+                count = count + 1
+            elif (i == cnb[1]):
+                count2 = count2 + 1
+    if (ctype == "pair"):
+            proba = proba_plus(count, 2)
+    if (ctype == "three"):
+            proba = proba_plus(count, 3)
+    if (ctype == "four"):
+            proba = proba_plus(count, 4)
+    if (ctype == "yams"):
+            proba = proba_plus(count, 5)
+    if (ctype == "full"):
+            proba = proba_full(count, count2)
+    return (proba)
+
+def getDicesValues(dvalues):
+    vlist = []
+
+    for i in dvalues:
+        if (i.isdigit() and int(i) >= 0 and int(i) <= 6):
+            vlist.append(int(i))
+        else:
+            print("Wrong dice values. Please put a value between 0 and 6 for each dice")
+            sys.exit(84)
+    return (vlist)
+
+def getCombNbFull(combi, charpos):
+    carg1 = int(combi[charpos+1:charpos+2])
+    carg2 = int(combi[charpos+3:])
+
+    if (carg1 == None or carg1 > 6 or carg1 < 1 or carg2 == None or carg2 > 6 or carg2 < 1):
+        print("Wrong arguments for the combination")
+        sys.exit(84)
+    cargs = [carg1, carg2]
+    return (cargs)
+
+def getCombNb(combi, charpos):
+    cargs = int(combi[charpos+1:])
+
+    if (cargs == None or cargs > 6 or cargs < 1):
+        print("Wrong arguments for the combination")
+        sys.exit(84)
+    return (int(cargs))
+
+def full_roll(combi, charpos, ctype):
+    cnb = getCombNbFull(combi, charpos)
+    vDices = getDicesValues(sys.argv[1:6])
+    proba = calc_proba(ctype, vDices, cnb)
+
+    print("Chances to get a " + str(cnb[0]) + " " + ctype + " of " + str(cnb[1]) + ": ", end ="")
+    print("%.2f" % (proba * 100) + "%")
+
+def notfull_roll(combi, charpos, ctype):
+    cnb = getCombNb(combi, charpos)
+    vDices = getDicesValues(sys.argv[1:6])
+    proba = calc_proba(ctype, vDices, cnb)
+
+    if (ctype == "four" or ctype == "three"):
+        print("Chances to get a " + str(cnb) + " " + ctype + "-of-a-kind: ", end ="")
+    else:
+        print("Chances to get a " + str(cnb) + " " + ctype + ": ", end ="")
+    print("%.2f" % (proba * 100) + "%")
+
+
+def check_combination(combi):
+    charpos = combi.find('_')
+    ctype = combi[:charpos]
+
+    if (ctype == "pair" or ctype == "three" or ctype == "four" or ctype == "yams"):
+        notfull_roll(combi, charpos, ctype)
+    if (ctype == "full"):
+        full_roll(combi, charpos, ctype)
+
+if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+    print("USAGE")
+    print("    ./201yams d1 d2 d3 d4 d5 c")
+    print("\n\nDESCRIPTION")
+    print("    d1\tvalue of the first die (0 if not thrown)")
+    print("    d2\tvalue of the second die (0 if not thrown)")
+    print("    d3\tvalue of the third die (0 if not thrown)")
+    print("    d4\tvalue of the fourth die (0 if not thrown)")
+    print("    d5\tvalue of the fifth die (0 if not thrown)")
+    print("    c\texpected combination")
+
+if (len(sys.argv) == 7):
+    check_combination(sys.argv[6])
+    sys.exit(0)
+
+sys.exit(84)

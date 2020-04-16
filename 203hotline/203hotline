@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2019
+## 203hotline
+## File description:
+## 203hotline python<
+##
+
+import sys
+import time as tim
+from math import *
+
+def computePoisson(d):
+    count = 0
+    time = d / (3600 * 8)
+    n = 3500 * time
+    overload = 0.0
+
+    print("Poisson distribution:")
+    start = tim.time()
+    while (count < 51):
+        result2 = exp(-n) * pow(n, count) / factorial(count)
+        if ((count + 1) % 5 != 0 and count != 50):
+            print("%d -> %.3f" % (count, result2), end="\t")
+        elif ((count + 1) % 5 == 0 or count == 50):
+            print("%d -> %.3f" % (count, result2), end="")
+        count += 1
+        if (count % 5 == 0 and count != 0):
+            print("")
+        if (count > 26):
+            overload += result2
+    end = tim.time()
+    print("\nOverload: %.1f" % (overload * 100) + "%")
+    print("Computation time: %.2f ms" % ((end - start) * 1000))
+
+def computeBinomiale(d):
+    count = 0
+    time = d / (3600 * 8)
+    nbPeople = 3500
+    overload = 0.0
+    computeTime = 0
+
+    print("Binomial distribution:")
+    start = tim.time()
+    while (count < 51):
+        result = (factorial(nbPeople) // (factorial(count) * factorial(nbPeople - count))) * (time**count) * ((1 - time)**(nbPeople - count))
+        if ((count + 1) % 5 != 0 and count != 50):
+            print("%d -> %.3f" % (count, result), end="\t")
+        elif ((count + 1) % 5 == 0 or count == 50):
+            print("%d -> %.3f" % (count, result), end="")
+        count += 1
+        if (count % 5 == 0 and count != 0):
+            print("")
+        if (count > 26):
+            overload += result
+    end = tim.time()
+    print("\nOverload: %.1f" % (overload * 100) + "%")
+    print("Computation time: %.2f ms\n" % ((end - start) * 1000))
+
+
+def computeCoeff(n, k):
+    result = 0
+
+    result = factorial(n) // (factorial(k) * factorial(n - k))
+    print("%d-combinations of a set of size %d:\n%d" % (k, n, result))
+    sys.exit(0)
+
+def checkArgs(a, b):
+    if (not a.isdigit() or not b.isdigit()):
+        sys.stderr.write("Error: a and b parameters need to be integers.\n")
+        sys.exit(84)
+
+def checkArg(a):
+    if (not a.isdigit()):
+        sys.stderr.write("Error: a and b parameters need to be integers.\n")
+        sys.exit(84)
+
+if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+    print("USAGE")
+    print("    ./203hotline [n k | d]")
+    print("\nDESCRIPTION")
+    print("    n\t   value for the computation of C(n, k)")
+    print("    k\t   value for the computation of C(n, k)")
+    print("    d\t   average duration of calls (in seconds)")
+    sys.exit(0)
+
+if (len(sys.argv) == 2 or len(sys.argv) == 3):
+    if (len(sys.argv) == 3):
+        checkArgs(sys.argv[1], sys.argv[2])
+        computeCoeff(int(sys.argv[1]), int(sys.argv[2]))
+    else:
+        checkArg(sys.argv[1])
+        computeBinomiale(int(sys.argv[1]))
+        computePoisson(int(sys.argv[1]))
+    sys.exit(0)
+sys.exit(84)

@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2019
+## 106
+## File description:
+## 106
+##
+
+import sys
+import math
+
+
+def error_gestion( b: int):
+    i = 1
+    j = 0
+    while i != b - 1:
+        if sys.argv[i].isnumeric() == False:
+            exit(84)
+        i = i + 1
+
+if len(sys.argv) == 2 and sys.argv[1] == "-h":
+    print("USAGE")
+    print("    ./106bombyx n [k | i0 i1]")
+    print("\nDESCRIPTION")
+    print("    n      number of first generation individuals")
+    print("    k      growth rate from 1 to 4")
+    print("    i0     initial generation (included)")
+    print("    i1     final generation (included)")
+
+elif len(sys.argv) < 2 or len(sys.argv) > 4:
+    exit(84)
+
+if len(sys.argv) == 3:
+    error_gestion(3)
+    i = 1
+    base = float(sys.argv[1])
+    growth = float(sys.argv[2])
+    while (i < 101):
+        print("%.0f " % (i), end="")
+        if (i > 1):
+            base = growth * base * ((1000 - base) / 1000)
+        print("%.2f" % (base))
+        i = i + 1
+
+if len(sys.argv) == 4:
+    error_gestion(4)
+    i = float(1)
+    base = float(sys.argv[1])
+    beg = int(sys.argv[2])
+    fin = int(sys.argv[3])
+    count = 0
+    
+    while (i < 4.00):
+        while (count <= beg):
+            base = (base * i * (1000 - base)) / 1000
+            count = count + 1
+        while (count <= (fin + 1)):
+            print("%.2f " % (i), end="")
+            base = (base * i * (1000 - base)) / 1000
+            print("%.2f" % (base))
+            count = count + 1
+        count = 0
+        i = i + 0.01

@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2018
+## 102architect
+## File description:
+## 102architect
+##
+
+import sys
+import math
+
+if len(sys.argv) == 2:
+    if sys.argv[1] == "-h":
+        print("USAGE")
+        print("\t./103cipher message key flag")
+        print("")
+        print("DESCRIPTION")
+        print("\tmessage        a message, made of ASCII characters")
+        print("\tkey        the encryption key, made of ASCII characters")
+        print("\tflag        0 for the message to be encrypted, 1 to be decrypted")
+        exit (0)
+    else:
+        exit (84)
+if len(sys.argv) > 4:
+    exit (84)
+if sys.argv[3] != "0":
+    if sys.argv[3] != "1":
+        exit (84)
+else:
+    if len(sys.argv[2]) > 0:
+        result1 = ord(sys.argv[2][0])
+    else:
+        result1 = 0
+    if len(sys.argv[2]) > 1:
+        result2 = ord(sys.argv[2][1])
+    else:
+        result2 = 0
+    if len(sys.argv[2]) > 2:
+        result3 = ord(sys.argv[2][2])
+    else:
+        result3 = 0
+    if len(sys.argv[2]) > 3:
+        result4 = ord(sys.argv[2][3])
+    else:
+        result4 = 0
+    if len(sys.argv[2]) > 4:
+        result5 = ord(sys.argv[2][4])
+    else:
+        result5 = 0
+    if len(sys.argv[2]) > 5:
+        result6 = ord(sys.argv[2][5])
+    else:
+        result6 = 0
+    if len(sys.argv[2]) > 6:
+        result7 = ord(sys.argv[2][6])
+    else:
+        result7 = 0
+    if len(sys.argv[2]) > 7:
+        result8 = ord(sys.argv[2][7])
+    else:
+        result8 = 0
+    if len(sys.argv[2]) > 8:
+        result9 = ord(sys.argv[2][8])
+    else:
+        result9 = 0
+    if len(sys.argv[2]) > 9:
+        result22 = ord(sys.argv[2][9])
+    else:
+        result22 = 0
+    if len(sys.argv[2]) > 10:
+        result23 = ord(sys.argv[2][10])
+    else:
+        result23 = 0
+    if len(sys.argv[2]) > 11:
+        result24 = ord(sys.argv[2][11])
+    else:
+        result24 = 0
+    result10 = 0
+    result11 = 0
+    result12 = 0
+    result13 = 0
+    result14 = 0
+    result15 = 0
+    result16 = 0
+    result17 = 0
+    result18 = 0
+    result19 = 0
+    result20 = 0
+    result21 = 0
+    i = 0
+    j = 0
+    temp1 = 0
+    temp2 = 1
+    temp3 = 2
+    tableau = []
+    print("Key matrix:")
+    if len(sys.argv[2]) == 1:
+        print(f"%d" % result1)
+    if len(sys.argv[2]) > 1 and len(sys.argv[2]) <= 4:
+        print(f"%d\t" % result1 + "%d" % result2)
+        print(f"%d\t" % result3 + "%d" % result4)
+    if len(sys.argv[2]) > 4 and len(sys.argv[2]) <= 9:
+        print(f"%d\t" % result1 + "%d\t" % result2 + "%d" % result3)
+        print(f"%d\t" % result4 + "%d\t" % result5 + "%d" % result6)
+        print(f"%d\t" % result7 + "%d\t" % result8 + "%d" % result9)
+    if len(sys.argv[2]) > 9:
+        print(f"%d\t" % result1 + "%d\t" % result2 + "%d\t" % result3 + "%d" % result4)
+        print(f"%d\t" % result5 + "%d\t" % result6 + "%d\t" % result7 + "%d" % result8)
+        print(f"%d\t" % result9 + "%d\t" % result22 + "%d\t" % result23 + "%d" % result24)
+    print("")
+    print("Encrypted message:")
+    print("")

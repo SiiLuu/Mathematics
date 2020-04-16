@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+##
+## 110borwein
+##
+
+import sys
+import math
+
+def borwein(n):
+    y = 1
+    k = 0
+    j = float(sys.argv[1])
+    while (k <= j):
+        if (n != 0):
+            y *= math.sin(n / (2 * k + 1)) / (n / (2 * k + 1))
+        k = k + 1
+    return (y)
+
+def my_rectangle(n):
+    print ("Midpoint:\nI = ")
+    print ("diff = ")
+
+def my_trapezoid(n):
+    a = 0
+    b = 5000
+    c = 10000
+    d = float((b - a) / (c))
+    res = 0
+    i = float(1)
+    while (i <= 10000 - 1):
+        x = i * d
+        res += borwein(x)
+        i = i + 1
+    res = ((res * 2) + borwein(a) + borwein(b))
+    eq = res * d / 2
+    p = eq - (math.pi / 2)
+    print ("\nTrapezoids:\nI{:.0f} = {:.10f}".format(arg, eq))
+    p = round(p, 10)
+    if (p == -0):
+        print("diff = 0.0000000000")
+    else:
+        print ("diff = {:.10f}".format(p))
+
+def my_simpson(n):
+    a = 0
+    b = 5000
+    c = 10000
+    d = float((b - a) / (c))
+    res = 0
+    i = 0
+    while (i <= 10000 - 1):
+        x = i * d
+        if (i == 0):
+            res += 4 * borwein(x + (d / 2))
+        else:
+            res += (2 * borwein(x)) + (4 * borwein(x + (d / 2)))
+        i += 1
+    res = (borwein(a) + borwein(b) + res) * d / 6
+    eq = res - (math.pi / 2)
+    print ("\nSimpson:\nI{:.0f} = {:.10f}".format(arg, res))
+    eq = round(eq, 10)
+    if (eq == -0):
+        print("diff = 0.0000000000")
+    else:
+        print ("diff = {:.10f}".format(eq))
+
+
+if (len(sys.argv) != 2):
+    exit(84)
+if "-h" in sys.argv:
+    print("USAGE\n    ./110borwein n\n\n"
+          "DESCRIPTION\n    n    constant defining "
+          "the integral to be computed")
+    sys.exit(0)
+try:
+    arg = int(sys.argv[1])
+except ValueError:
+    exit(84)
+
+my_rectangle(arg)
+my_trapezoid(arg)
+my_simpson(arg)
+exit (0)

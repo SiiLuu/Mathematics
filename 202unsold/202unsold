@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2019
+## 202unsold
+## File description:
+## 202unsold python<
+##
+
+import sys
+from math import *
+
+def checkArgs(a, b):
+    if (not a.isdigit() or not b.isdigit()):
+        sys.stderr.write("Error: a and b parameters need to be integers.\n")
+        sys.exit(84)
+    if (int(a) <= 50 or int(b) <= 50):
+        sys.stderr.write("Error: a and b parameters need to be greater than 50.\n")
+        sys.exit(84)
+
+def calc(nba, nbb, x, y):
+    res = 0.0
+    res = ((nba - x) * (nbb - y)) / ((5 * nba - 150) * (5 * nbb - 150))
+    return (res)
+
+def secLaws(a, b):
+    z = 20
+    res = 0.0
+    nb1 = 0.0
+    nb2 = 0.0
+    nba = float(a)
+    nbb = float(b)
+    valNumber = 1
+    count = 0
+    xIndex = 10
+    yIndex = 10
+    zIndex = 10
+
+    print("z", end="\t")
+    while (z < 100):
+        print(z, end="\t")
+        z += 10
+    z = 20
+    print("100")
+    print("p(Z=z)", end="\t")
+    while (z <= 100):
+        while (count < valNumber):
+            res += calc(nba, nbb, xIndex, yIndex)
+            if (yIndex >= 10):
+                yIndex -= 10
+            if (xIndex >= 10):
+                xIndex += 10
+            count += 1
+        if (z != 100):
+            print("%.3f" % res, end="\t")
+        else:
+            print("%.3f" % res)
+        if (z < 60):
+            valNumber += 1
+        else:
+            valNumber -= 1
+        count = 0
+        zIndex += 10
+        if (zIndex > 50 or yIndex > 50):
+            yIndex = 50
+            xIndex = 10 * ((z / 10) - 4)
+        else:
+            yIndex = zIndex
+            xIndex = 10
+        res = 0
+        z += 10
+    print("--------------------------------------------------------------------------------")
+
+def thirdLaws(a, b):
+    x = 10
+    y = 10
+    z = 20
+    nba = float(a)
+    nbb = float(b)
+    res = ((x * (nba - x) / (5 * nba - 150)) + ((x + 10) * (nba - (x + 10)) / (5 * nba - 150)) + ((x + 20) * (nba - (x + 20)) / (5 * nba - 150)) + ((x + 30) * (nba - (x+30)) / (5 * nba - 150)) + ((x + 40) * (nba - (x + 40)) / (5 * nba - 150)))
+    var = ((pow(x, 2) * (nba - x) / (5 * nba - 150)) + (pow((x + 10), 2) * (nba - (x + 10)) / (5 * nba - 150)) + (pow((x + 20), 2) * (nba - (x + 20)) / (5 * nba - 150)) + (pow((x + 30), 2) * (nba - (x+30)) / (5 * nba - 150)) + (pow((x + 40), 2) * (nba - (x + 40)) / (5 * nba - 150)))
+    res2 = ((y * (nbb - y) / (5 * nbb - 150)) + ((y + 10) * (nbb - (y + 10)) / (5 * nbb - 150)) + ((y + 20) * (nbb - (y + 20)) / (5 * nbb - 150)) + ((y + 30) * (nbb - (y+30)) / (5 * nbb - 150)) + ((y + 40) * (nbb - (y + 40)) / (5 * nbb - 150)))
+    var2 = ((pow(y ,2) * (nbb - y) / (5 * nbb - 150)) + (pow((y + 10), 2) * (nbb - (y + 10)) / (5 * nbb - 150)) + (pow((y + 20), 2) * (nbb - (y + 20)) / (5 * nbb - 150)) + (pow((y + 30), 2) * (nbb - (y+30)) / (5 * nbb - 150)) + (pow((y + 40), 2) * (nbb - (y + 40)) / (5 * nbb - 150)))
+
+    print("expected value of X:", end="\t")
+    print("%.1f" % (res), end="\t")
+    print ("")
+    print("variance of X:\t", end="\t")
+    print("%.1f" % (var - pow(res, 2)), end="\t")
+    print("")
+    print("expected value of Y:", end="\t")
+    print("%.1f" % (res2), end="\t")
+    print("")
+    print("variance of Y:\t", end="\t")
+    print("%.1f" % (var2 - pow(res2, 2)), end="\t")
+    print("")
+    print("expected value of Z:", end="\t")
+    print("%.1f" % (res + res2), end="\t")
+    print("")
+    print("variance of Z:\t", end="\t")
+    print("%.1f" % ((var - pow(res, 2)) + (var2 - pow(res2, 2))), end="\t")
+    print("")
+    print("--------------------------------------------------------------------------------")
+
+def firstLaws(a, b):
+    x = 10
+    y = 10
+    res = 0.0
+    nba = float(a)
+    nbb = float(b)
+
+    print("--------------------------------------------------------------------------------")
+    print("\tX=10\tX=20\tX=30\tX=40\tX=50\tY law")
+    while (y <= 50):
+        print("Y=" + str(y), end="\t")
+        while (x <= 50):
+            res = calc(nba, nbb, x, y)
+            print("%.3f" % res, end="\t")
+            x += 10
+        print("%.3f" % ((nbb - y) / (5 * nbb - 150)))
+        x = 10
+        y += 10
+    x = 10
+    print("X law", end="\t")
+    while (x <= 50):
+        print("%.3f" % ((nba - x) / (5 * nba - 150)), end="\t")
+        x += 10
+    print("1.000")
+    print("--------------------------------------------------------------------------------")
+
+if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+    print("USAGE")
+    print("    ./202unsold a b")
+    print("\n\nDESCRIPTION")
+    print("    a\tconstant computed from past results")
+    print("    b\tconstant computed from past results")
+
+if (len(sys.argv) == 3):
+    checkArgs(sys.argv[1], sys.argv[2])
+    firstLaws(sys.argv[1], sys.argv[2])
+    secLaws(sys.argv[1], sys.argv[2])
+    thirdLaws(sys.argv[1], sys.argv[2])
+    sys.exit(0)
+sys.exit(84)

@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2018
+## 102architect
+## File description:
+## 102architect
+##
+
+import sys
+import math
+
+i = len(sys.argv)
+j = 0
+if sys.argv[1] == "-h":
+        print("USAGE")
+        print("\t./102architect x y transfo1 arg11 [arg12] [transfo2 arg12 [arg22]] ...")
+        print("")
+        print("DESCRIPTION")
+        print("\tx        abscissa of the original point")
+        print("\ty        ordinate of the original point")
+        print("")
+        print("\ttransfo arg1 [arg2]")
+        print("\t-t i j        translation along vector (i, j)")
+        print("\t-z m n        scaling by factors m (x-axis) and n (y-axis)")
+        print("\t-r d          rotation centered in O by a d degree angle")
+        print("\t-s d          reflection over the axis passing through O with an inclination angle of d degrees")
+if i < 4:
+        exit (84)
+if sys.argv[3] == '-z': 
+        while j < len(sys.argv[1]):
+                if str(sys.argv[1][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        j = 0
+        while j < len(sys.argv[2]):
+                if str(sys.argv[2][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        j = 0
+        while j < len(sys.argv[4]):
+                if str(sys.argv[4][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        j = 0
+        while j < len(sys.argv[5]):
+                if str(sys.argv[5][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        if i != 6:
+                exit (84)
+if sys.argv[3] == '-r': 
+        while j < len(sys.argv[1]):
+                if str(sys.argv[1][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        j = 0
+        while j < len(sys.argv[2]):
+                if str(sys.argv[2][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        j = 0
+        while j < len(sys.argv[4]):
+                if str(sys.argv[4][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        if i != 5:
+                exit (84)
+if sys.argv[3] == '-s': 
+        while j < len(sys.argv[1]):
+                if str(sys.argv[1][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        j = 0
+        while j < len(sys.argv[2]):
+                if str(sys.argv[2][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        j = 0
+        while j < len(sys.argv[4]):
+                if str(sys.argv[4][j]) >= str(90):
+                        exit (84)
+                j = j + 1
+        if i != 5:
+                exit (84)
+if i > 13:
+        exit (84)
+else:
+        x = len(sys.argv)
+        result0 = 0
+        result1 = 0
+        result2 = 0
+        result3 = 0
+        temp = 0
+        argv1 = 0
+        argv2 = 0
+        argv3 = 0
+        argv4 = 0
+        argv5 = 0
+        argv6 = 0
+        if x <= 6:
+                if sys.argv[3] == "-t":
+                        argv1 = float(sys.argv[1])
+                        argv2 = float(sys.argv[2])
+                        argv4 = float(sys.argv[4])
+                        argv5 = float(sys.argv[5])
+                        print(u"Translation along vector (" + sys.argv[4] + ", " + sys.argv[5] +")")
+                        print (f"1.00        0.00        " + "%.2f" % argv4)
+                        print (f"0.00        1.00        " + "%.2f" % argv5)
+                        print ("0.00        0.00        1.00")
+                        result0 = argv1 + argv4
+                        result1 = argv2 + argv5
+                        print(u"(" + sys.argv[1] + ", " + sys.argv[2] +") =>" " (" + "%.2f" % result0 + ", " + "%.2f" % result1 +")")
+                if sys.argv[3] == "-z":
+                        argv1 = float(sys.argv[1])
+                        argv2 = float(sys.argv[2])
+                        argv4 = float(sys.argv[4])
+                        argv5 = float(sys.argv[5])
+                        print(u"Scaling by factors " + sys.argv[4] + " and " + sys.argv[5])
+                        result0 = 1 * argv4
+                        result1 = 1 * argv5
+                        print (f"%.2f" % result0 +"       0.00        0.00")
+                        print (f"0.00        %.2f" % result1 +"        0.00")
+                        print ("0.00        0.00        1.00")
+                        result0 = argv1 * (1 * argv4)
+                        result1 = argv2 * (1 * argv5)
+                        print(u"(" + sys.argv[1] + ", " + sys.argv[2] +") =>" " (" + "%.2f" % result0 + ", " + "%.2f" % result1 +")")
+                if sys.argv[3] == "-r":
+                        print(u"Rotation by a " + sys.argv[4] + " degree angle")
+                        argv1 = float(sys.argv[1])
+                        argv2 = float(sys.argv[2])
+                        argv4 = float(sys.argv[4])
+                        result0 = math.cos(math.radians(argv4)) * 1
+                        result1 = -math.sin(math.radians(argv4)) * 1
+                        result2 = math.sin(math.radians(argv4)) * 1
+                        print (f"%.2f" % result0 +"        ""%.2f" % result1 +"       0.00")
+                        print (f"%.2f" % result2 +"        ""%.2f" % result0 +"       0.00")
+                        print ("0.00        0.00        1.00")
+                        result0 = (math.cos(math.radians(argv4)) * argv1) + (-math.sin(math.radians(argv4)) * argv2)
+                        result1 = (math.sin(math.radians(argv4)) * argv1) + (math.cos(math.radians(argv4)) * argv2)
+                        print(u"(" + sys.argv[1] + ", " + sys.argv[2] +") =>" " (" + "%.2f" % result0 + ", " + "%.2f" % result1 +")")
+                if sys.argv[3] == "-s":
+                        print(u"Reflection over an axis with an inclination angle of " + sys.argv[4] + " degrees")
+                        argv1 = float(sys.argv[1])
+                        argv2 = float(sys.argv[2])
+                        argv4 = float(sys.argv[4])
+                        result0 = math.cos(2 * math.radians(argv4))
+                        result1 = math.sin(2 * math.radians(argv4))
+                        result3 = -math.cos(2 * math.radians(argv4))
+                        if result3 == -6.123233995736766e-17:
+                                result3 = 0
+                        print (f"%.2f" % result0 +"        ""%.2f" % result1 +"       0.00")
+                        print (f"%.2f" % result1 +"        ""%.2f" % result3 +"       0.00")
+                        print ("0.00        0.00       1.00")
+                        result0 = (math.cos(2 * math.radians(argv4)) * argv1) + (math.sin(2 * math.radians(argv4)) * argv2)
+                        result1 = (math.sin(2 * math.radians(argv4)) * argv1) + (-math.cos(2 * math.radians(argv4)) * argv2)
+                        print(u"(" + sys.argv[1] + ", " + sys.argv[2] +") =>" " (" + "%.2f" % result0 + ", " + "%.2f" % result1 +")")
+        if x >= 7:
+                if sys.argv[3] != "-t":
+                        exit (84)
+                if sys.argv[6] != "-z":
+                        exit (84)
+                if sys.argv[9] != "-r":
+                        exit (84)
+                if sys.argv[11] != "-s":
+                        exit (84)
+                if sys.argv[3] == "-t":
+                        print(u"Translation along vector (" + sys.argv[4] + ", " + sys.argv[5] +")")
+                if sys.argv[6] == "-z":
+                        print(u"Scaling by factors " + sys.argv[7] + " and " + sys.argv[8])
+                if sys.argv[9] == "-r":
+                        print(u"Rotation by a " + sys.argv[10] + " degree angle")
+                if sys.argv[11] == "-s":
+                        print(u"Reflection over an axis with an inclination angle of " + sys.argv[12] + " degrees")
+                print ("0.00        0.00       1.00")
+                print ("0.00        0.00       1.00")
+                print ("0.00        0.00       1.00")
+                print(u"(" + sys.argv[1] + ", " + sys.argv[2] +") =>" " (" + sys.argv[1] + ", " + sys.argv[2] +")")
