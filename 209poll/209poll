@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2020
+## 209poll_2019
+## File description:
+## test
+##
+
+import  sys
+import  math
+
+def getVariance(pSize, sSize, p):
+    variance = (((p * (100 - p)) / 10000) / sSize) * ((pSize - sSize) / (pSize - 1))
+    return variance
+
+def displayGivenInfos(pSize, sSize, p):
+    print("Population size:\t %d" % pSize)
+    print("Sample size:\t\t %d" % sSize)
+    print("Voting intentions:\t %.2f%%" % p)
+
+def displayVariance(variance):
+    print("Variance:\t\t %.6f" % variance)
+
+def displayIntervals(interval95, interval99, p):
+    print("95%% confidence interval: [%.2f%%; %.2f%%]" % ((p - interval95), (p + interval95)))
+    print("99%% confidence interval: [%.2f%%; %.2f%%]" % ((p - interval99), (p + interval99)))
+
+def poll(pSize, sSize, p):
+    variance = getVariance(pSize, sSize, p)
+    interval95 = 1.96 * math.sqrt(variance) * 100
+    interval99 = 2.58 * math.sqrt(variance) * 100
+    displayGivenInfos(pSize, sSize, p)
+    displayVariance(variance)
+    displayIntervals(interval95, interval99, p)
+
+def checkArg(constArg1, constArg2, constArg3):
+    try:
+        pSize = int(constArg1)
+        sSize = int(constArg2)
+        p = float(constArg3)
+    except:
+        print("Arguments must be of type [int][int][float]")
+        sys.exit(84)
+    if (pSize < sSize):
+        print("Sample size cannot be greater than population size")
+        sys.exit(84)
+    if (p > 100 or p < 0):
+        print("Percentage of voting intentions must be between 0 and 100")
+        sys.exit(84)
+
+if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+    print("USAGE")
+    print("    ./209poll pSize sSize p\n")
+    print("DESCRIPTION")
+    print("    pSize   size of the population")
+    print("    sSize   size of the sample (supposed to be representative)")
+    print("    p       percentage of voting intentions for a specific candidate")
+    sys.exit(0)
+
+if (len(sys.argv) != 4):
+    print("Program must take 3 parameters.\nPlease refer to ./209poll -h")
+    sys.exit(84)
+
+checkArg(sys.argv[1], sys.argv[2], sys.argv[3])
+pSize = int(sys.argv[1])
+sSize = int(sys.argv[2])
+p = float(sys.argv[3])
+poll(pSize, sSize, p)
+sys.exit(0)
