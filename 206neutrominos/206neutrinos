@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2020
+## 206neutrinos_2019
+## File description:
+## test
+##
+
+import  sys
+import  math
+
+def help():
+    if sys.argv[1] == "-h":
+        print("USAGE")
+        print("\t./206neutrinos n a h sd\n")
+        print("DESCRIPTION")
+        print("\tn\tnumber of values")
+        print("\ta\tarithmetic mean")
+        print("\th\tharmonic mean")
+        print("\tsd\tstandard deviation")
+        exit(0)
+
+def errorsHandling():
+    if len(sys.argv) != 5:
+        exit(84)
+    if not sys.argv[1].isdigit() or not sys.argv[2].isdigit() or not sys.argv[3].isdigit() or not sys.argv[4].isdigit():
+        exit(84)
+
+def getArithmeticMean(nbValues, mean, value):
+    return ((mean * (nbValues - 1) + value) / nbValues)
+
+def getHarmonicMean(nbValues, mean, value):
+    return ((nbValues + 1) / ((1/value) + (nbValues/mean)))
+
+def getRootMeanSquare(nbValues, mean, sd, value):
+    return (math.sqrt(((1 / nbValues) * ((pow(mean, 2) + pow(sd, 2)) * (nbValues - 1) + pow(value, 2)))))
+
+def getAverage(nbValues, mean, newMean, sd, value):
+    square = (pow(sd, 2) + pow(mean, 2)) * nbValues
+    oldMean = (mean * nbValues + value) / (nbValues + 1)
+    newStdDev = math.sqrt((((square + pow(value, 2)) / (nbValues + 1)) - pow(oldMean, 2)))
+    return (newStdDev)
+
+def body():
+    n = int(sys.argv[1])
+    a = float(sys.argv[2])
+    h = float(sys.argv[3])
+    sd = float(sys.argv[4])
+    oldA = a
+    while True:
+        print("Enter next value: ", end="")
+        value = input()
+        if not value.isdigit() and value != "END":
+            exit(84)
+        if value != "END":
+            rms = getRootMeanSquare(n, a, sd, float(value))
+            a = getArithmeticMean(n, a, float(value))
+            h = getHarmonicMean(n, h, float(value))
+            sd = getAverage(n, a, oldA, sd, float(value))
+            oldA = a
+            print("\tNumber of values:    %d" % (n + 1))
+            print("\tStandard deviation:  %.2f" % sd)
+            print("\tArithmetic mean:     %.2f" % a)
+            print("\tRoot mean square:    %.2f" % rms)
+            print("\tHarmonic mean:       %.2f" % h, end="\n\n")
+            n += 1
+        else:
+            break
+
+def main():
+    if  len(sys.argv) == 2:
+        help()
+    errorsHandling()
+    body()
+
+if __name__ == "__main__":
+    main()
