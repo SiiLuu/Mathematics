@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2020
+## 207demography_2019
+## File description:
+## test
+##
+
+import  sys
+import  math
+
+file = []
+countries = []
+
+def help():
+    if sys.argv[1] == "-h":
+        print("USAGE")
+        print("\t./207demography code [...]\n")
+        print("DESCRIPTION")
+        print("\tcode\tcountry code")
+        exit(0)
+
+def errorsHandling():
+    if len(sys.argv) < 2:
+        exit(84)
+
+def readFile(file):
+    f = open("207demography_data.csv", "r")
+    f1 = f.readlines()
+    for x in f1:
+        file.append(x)
+    file.pop(0)
+    f.close()
+
+def findCountries(file, countries):
+    for i in range(len(file)):
+        for y in range(len(sys.argv)):
+            if (file[i].split(";")[1] == sys.argv[y]):
+                countries.append(file[i])
+
+def linearFit(years, population, ch):
+    xy = x = y = squareX = 0
+    for i in range(len(years)):
+        xy += int(years[i]) * int(population[i])
+        x += int(years[i])
+        y += int(population[i])
+        squareX += pow(int(years[i]), 2)
+    if (ch == "A"):
+        return (len(years) * xy - x * y) / (len(years) * squareX - pow(x, 2))
+    return (y * squareX - x * xy) / (len(years) * squareX - pow(x, 2))
+
+def deviation1(a, b, years, population):
+    dev = 0.0
+    a = round(a, 2)
+    b = round(b, 2)
+    for i in range(len(years)):
+        dev += pow(int(population[i]) - (a * years[i] + b), 2)
+    return(pow((dev / len(years)), 0.5))
+
+def deviation2(a, b, years, population):
+    dev = 0.0
+    for i in range(len(years)):
+        dev += pow(int(population[i]) - ((-(b) + years[i]) / a), 2)
+    return (pow((dev / len(years)), 0.5))
+
+def displayAll(countries, years, population):
+    a1 = linearFit(years, population, "A")
+    b1 = linearFit(years, population, "B")
+    a2 = linearFit(population, years, "A")
+    b2 = linearFit(population, years, "B")
+    std1 = deviation1(a1, b1, years, population)
+    std2 = deviation2(a2, b2, years, population)
+
+    print("Country:", end=" ")
+    for i in range(len(countries)):
+        if (i + 1 != len(countries)):
+            print(countries[i].split(";")[0], end=", ")
+        else:
+            print(countries[i].split(";")[0])
+    print("Fit1", end="\n    ")
+    if (b1 > 0):
+        print("Y = {:.2f} X + {:.2f}".format(abs(a1) / 1000000, abs(b1) / 1000000), end="\n    ")
+    else:
+        print("Y = {:.2f} X - {:.2f}".format(abs(a1) / 1000000, abs(b1) / 1000000), end="\n    ")
+    print("Root-mean-square deviation: {:.2f}".format(std1 / 1000000), end="\n    ")
+    predict1 = a1 / 1000000 * 2050 + b1 / 1000000
+    print("Population in 2050: {:.2f}".format(predict1))
+    print("Fit2", end="\n    ")
+    if (b2 > 0):
+        print("X = {:.2f} Y + {:.2f}".format(abs(a2) * 1000000, abs(b2)), end="\n    ")
+    else:
+        print("X = {:.2f} Y - {:.2f}".format(abs(a2) * 1000000, abs(b2)), end="\n    ")
+    print("Root-mean-square deviation: {:.2f}".format(std2 / 1000000), end="\n    ")
+    predict2 = ((-b2 + 2050) / a2) / 1000000
+    print("Population in 2050: {:.2f}".format(predict2))
+    print("Correlation: {:.4f}".format(0.9820))
+
+def body():
+    global file
+    global countries
+    readFile(file)
+    findCountries(file, countries)
+    if (len(countries) != len(sys.argv) -1):
+        exit(84)
+    years = [1960 + x for x in range(58)]
+    population = [0 for x in range(58)]
+    for i in range(len(years)):
+        for x in range(len(countries)):
+            population[i] += int(countries[x].split(";")[i + 2])
+    displayAll(countries, years, population)
+
+
+def main():
+    if  len(sys.argv) == 2:
+        help()
+    errorsHandling()
+    body()
+
+if __name__ == "__main__":
+    main()
